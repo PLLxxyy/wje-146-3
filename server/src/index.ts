@@ -9,6 +9,7 @@ import fosteringRoutes from './routes/fostering';
 import messageRoutes from './routes/messages';
 import lostFoundRoutes from './routes/lostFound';
 import profileRoutes from './routes/profile';
+import meetupRoutes from './routes/meetup';
 import { db } from './db';
 
 const app = express();
@@ -89,6 +90,18 @@ app.get('/api/fostering/list', (_req, res) => {
   res.json({ needs });
 });
 
+app.get('/api/meetup/list', (_req, res) => {
+  const meetups = db.prepare(
+    `SELECT m.*, u.nickname as user_nickname, u.avatar as user_avatar,
+            (SELECT COUNT(*) FROM meetup_registrations WHERE meetup_id = m.id AND status = 'registered') as current_participants
+     FROM meetups m
+     LEFT JOIN users u ON m.user_id = u.id
+     WHERE m.status IN ('open', 'full')
+     ORDER BY m.created_at DESC`
+  ).all();
+  res.json({ meetups });
+});
+
 // Protected routes - auth middleware applied
 app.use('/api/pets', (req, res, next) => {
   // Only protect write operations on pets
@@ -105,6 +118,7 @@ app.use('/api/lost-found', (req, res, next) => {
   return authMiddleware(req as AuthRequest, res, next);
 }, lostFoundRoutes);
 app.use('/api/profile', authMiddleware, profileRoutes);
+app.use('/api/meetup', authMiddleware, meetupRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

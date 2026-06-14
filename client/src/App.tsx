@@ -7,6 +7,7 @@ import PetSquare from './pages/PetSquare';
 import FosteringPage from './pages/FosteringPage';
 import ChatPage from './pages/ChatPage';
 import LostFoundPage from './pages/LostFoundPage';
+import MeetupPage from './pages/MeetupPage';
 import ProfilePage from './pages/ProfilePage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/fostering" element={<FosteringPage />} />
           <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
           <Route path="/lost-found" element={<LostFoundPage />} />
+          <Route path="/meetup" element={<MeetupPage />} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

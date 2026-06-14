@@ -105,6 +105,30 @@ function initTables() {
       created_at TEXT DEFAULT (datetime('now','localtime')),
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
+
+    CREATE TABLE IF NOT EXISTS meetups (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      location TEXT NOT NULL,
+      meetup_time TEXT NOT NULL,
+      max_participants INTEGER NOT NULL DEFAULT 10,
+      status TEXT DEFAULT 'open',
+      created_at TEXT DEFAULT (datetime('now','localtime')),
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS meetup_registrations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      meetup_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      status TEXT DEFAULT 'registered',
+      created_at TEXT DEFAULT (datetime('now','localtime')),
+      FOREIGN KEY (meetup_id) REFERENCES meetups(id),
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      UNIQUE(meetup_id, user_id)
+    );
   `);
 }
 

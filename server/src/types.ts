@@ -97,3 +97,28 @@ export interface LostPet {
   user_nickname?: string;
   user_phone?: string;
 }
+
+export interface Meetup {
+  id: number;
+  user_id: number;
+  title: string;
+  description: string;
+  location: string;
+  meetup_time: string;
+  max_participants: number;
+  status: string;
+  created_at: string;
+  user_nickname?: string;
+  user_avatar?: string;
+  current_participants?: number;
+}
+
+export interface MeetupRegistration {
+  id: number;
+  meetup_id: number;
+  user_id: number;
+  status: string;
+  created_at: string;
+  user_nickname?: string;
+  user_avatar?: string;
+}

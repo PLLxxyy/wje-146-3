@@ -17,6 +17,7 @@ export default function Header() {
         <Link to="/" className={isActive('/')}>宠物广场</Link>
         <Link to="/fostering" className={isActive('/fostering')}>寄养互助</Link>
         <Link to="/lost-found" className={isActive('/lost-found')}>寻宠启事</Link>
+        <Link to="/meetup" className={isActive('/meetup')}>宠物聚会</Link>
         {user ? (
           <>
             <Link to="/chat" className={isActive('/chat')}>聊天</Link>

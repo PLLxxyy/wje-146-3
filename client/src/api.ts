@@ -98,4 +98,20 @@ export const api = {
   // Profile
   getProfile: () => request<{ user: any }>('/profile'),
   updateProfile: (data: any) => request<{ user: any }>('/profile', { method: 'PUT', body: JSON.stringify(data) }),
+
+  getPublicMeetups: () => request<{ meetups: any[] }>('/meetup/list'),
+  getMeetups: (params?: { status?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.status) qs.set('status', params.status);
+    return request<{ meetups: any[]; total: number }>(`/meetup?${qs.toString()}`);
+  },
+  getMyMeetups: () => request<{ meetups: any[] }>('/meetup/mine'),
+  getRegisteredMeetups: () => request<{ meetups: any[] }>('/meetup/registered'),
+  createMeetup: (data: any) => request<{ meetup: any }>('/meetup', { method: 'POST', body: JSON.stringify(data) }),
+  registerMeetup: (id: number) => request<{ registration: any }>(`/meetup/${id}/register`, { method: 'POST' }),
+  cancelMeetupRegistration: (id: number) => request<{ message: string }>(`/meetup/${id}/cancel`, { method: 'POST' }),
+  getMeetupRegistrations: (id: number) => request<{ registrations: any[]; meetup: any }>(`/meetup/${id}/registrations`),
+  removeMeetupRegistration: (meetupId: number, userId: number) => request<{ message: string }>(`/meetup/${meetupId}/remove/${userId}`, { method: 'POST' }),
+  closeMeetup: (id: number) => request<{ message: string }>(`/meetup/${id}/close`, { method: 'PUT' }),
+  cancelMeetup: (id: number) => request<{ message: string }>(`/meetup/${id}/cancel-meetup`, { method: 'PUT' }),
 };
